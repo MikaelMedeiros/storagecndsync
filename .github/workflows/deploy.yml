@@ -25,7 +25,7 @@ jobs:
         uses: appleboy/scp-action@v0.1.4
         env:
           host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
+          username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
         with:
           source: "target/*.jar"
@@ -35,7 +35,7 @@ jobs:
         uses: appleboy/ssh-action@v1.0.3
         env:
           host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
+          username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
         with:
           script: |
