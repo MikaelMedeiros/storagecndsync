@@ -8,7 +8,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: DEV
-
     steps:
       - uses: actions/checkout@v3
 
@@ -23,20 +22,18 @@ jobs:
 
       - name: Copy JAR to server
         uses: appleboy/scp-action@v0.1.4
-        env:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
-          key: ${{ secrets.SSH_KEY }}
         with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
           source: "target/*.jar"
           target: "/opt/app/"
 
       - name: Restart service
         uses: appleboy/ssh-action@v1.0.3
-        env:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
-          key: ${{ secrets.SSH_KEY }}
         with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
           script: |
             sudo systemctl restart spring-api
