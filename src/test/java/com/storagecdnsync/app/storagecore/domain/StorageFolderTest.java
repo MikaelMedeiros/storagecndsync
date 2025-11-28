@@ -4,29 +4,29 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class StorageFolderTest {
-
-    @Test
+class StorageFolderTest {    @Test
     void testAllEnumValues() {
         StorageFolder[] folders = StorageFolder.values();
         
-        assertEquals(6, folders.length);
+        assertEquals(7, folders.length);
         assertTrue(containsFolder(folders, StorageFolder.BANNER));
         assertTrue(containsFolder(folders, StorageFolder.BIO));
-        assertTrue(containsFolder(folders, StorageFolder.PROFILE));
-        assertTrue(containsFolder(folders, StorageFolder.GALLERY));
-        assertTrue(containsFolder(folders, StorageFolder.DOCUMENTS));
-        assertTrue(containsFolder(folders, StorageFolder.TEMP));
+        assertTrue(containsFolder(folders, StorageFolder.FOOTER));
+        assertTrue(containsFolder(folders, StorageFolder.FORM));
+        assertTrue(containsFolder(folders, StorageFolder.MENU));
+        assertTrue(containsFolder(folders, StorageFolder.PORTFOLIO));
+        assertTrue(containsFolder(folders, StorageFolder.TIPS));
     }
 
     @Test
     void testEnumValueOf() {
         assertEquals(StorageFolder.BANNER, StorageFolder.valueOf("BANNER"));
         assertEquals(StorageFolder.BIO, StorageFolder.valueOf("BIO"));
-        assertEquals(StorageFolder.PROFILE, StorageFolder.valueOf("PROFILE"));
-        assertEquals(StorageFolder.GALLERY, StorageFolder.valueOf("GALLERY"));
-        assertEquals(StorageFolder.DOCUMENTS, StorageFolder.valueOf("DOCUMENTS"));
-        assertEquals(StorageFolder.TEMP, StorageFolder.valueOf("TEMP"));
+        assertEquals(StorageFolder.FOOTER, StorageFolder.valueOf("FOOTER"));
+        assertEquals(StorageFolder.FORM, StorageFolder.valueOf("FORM"));
+        assertEquals(StorageFolder.MENU, StorageFolder.valueOf("MENU"));
+        assertEquals(StorageFolder.PORTFOLIO, StorageFolder.valueOf("PORTFOLIO"));
+        assertEquals(StorageFolder.TIPS, StorageFolder.valueOf("TIPS"));
     }
 
     @Test

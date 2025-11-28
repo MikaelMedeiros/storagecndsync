@@ -1,3 +1,14 @@
 spring:
   application:
     name: storagecdnsync
+
+personal-site:
+  root-folder: "personal-site"
+  folders:
+    banner: "banner"
+    bio: "bio"
+    footer: "footer"
+    form: "form"
+    menu: "menu"
+    portfolio: "portfolio"
+    tips: "tips"

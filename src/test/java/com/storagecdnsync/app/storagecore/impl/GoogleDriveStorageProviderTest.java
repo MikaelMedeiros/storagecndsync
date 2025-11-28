@@ -1,22 +1,37 @@
 package com.storagecdnsync.app.storagecore.impl;
 
+import com.storagecdnsync.app.config.PersonalSiteProperties;
 import com.storagecdnsync.app.storagecore.domain.FileMetadata;
 import com.storagecdnsync.app.storagecore.domain.ImageFile;
 import com.storagecdnsync.app.storagecore.domain.StorageFolder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class GoogleDriveStorageProviderTest {
+
+    @Mock
+    private PersonalSiteProperties properties;
 
     private GoogleDriveStorageProvider provider;
 
     @BeforeEach
     void setUp() {
-        provider = new GoogleDriveStorageProvider();
+        MockitoAnnotations.openMocks(this);
+        Map<String, String> folders = Map.of(
+            "banner", "banner",
+            "bio", "bio",
+            "portfolio", "portfolio"
+        );
+        when(properties.getFolders()).thenReturn(folders);
+        provider = new GoogleDriveStorageProvider(properties);
     }
 
     @Test
@@ -31,14 +46,14 @@ class GoogleDriveStorageProviderTest {
     void testListFilesWithDifferentFolders() {
         List<ImageFile> bannerFiles = provider.listFiles(StorageFolder.BANNER);
         List<ImageFile> bioFiles = provider.listFiles(StorageFolder.BIO);
-        List<ImageFile> profileFiles = provider.listFiles(StorageFolder.PROFILE);
+        List<ImageFile> portfolioFiles = provider.listFiles(StorageFolder.PORTFOLIO);
         
         assertNotNull(bannerFiles);
         assertNotNull(bioFiles);
-        assertNotNull(profileFiles);
+        assertNotNull(portfolioFiles);
         assertTrue(bannerFiles.isEmpty());
         assertTrue(bioFiles.isEmpty());
-        assertTrue(profileFiles.isEmpty());
+        assertTrue(portfolioFiles.isEmpty());
     }
 
     @Test
@@ -53,13 +68,13 @@ class GoogleDriveStorageProviderTest {
 
         assertNotNull(url);
         assertTrue(url.contains(metadata.fileId()));
-        assertEquals("https://drive.google.com/file/d/abc123xyz/view", url);
+        assertEquals("https://drive.google.com/uc?id=abc123xyz", url);
     }
 
     @Test
     void testGeneratePublicAccessUrlWithDifferentFileIds() {
         FileMetadata metadata1 = new FileMetadata("file1", "test1.jpg", StorageFolder.BIO);
-        FileMetadata metadata2 = new FileMetadata("file2", "test2.png", StorageFolder.PROFILE);
+        FileMetadata metadata2 = new FileMetadata("file2", "test2.png", StorageFolder.PORTFOLIO);
 
         String url1 = provider.generatePublicAccessUrl(metadata1);
         String url2 = provider.generatePublicAccessUrl(metadata2);
@@ -76,12 +91,12 @@ class GoogleDriveStorageProviderTest {
         FileMetadata metadata = new FileMetadata(
             "test-file-id-123",
             "document.pdf",
-            StorageFolder.DOCUMENTS
+            StorageFolder.FOOTER
         );
 
         String url = provider.generatePublicAccessUrl(metadata);
 
-        assertTrue(url.startsWith("https://drive.google.com/file/d/"));
-        assertTrue(url.endsWith("/view"));
+        assertTrue(url.startsWith("https://drive.google.com/uc?id="));
+        assertTrue(url.contains("test-file-id-123"));
     }
 }
